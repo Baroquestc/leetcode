@@ -11,3 +11,7 @@
 
 
 ## Stack
+
+## hash-table
+
+- [](hash-table/easy/1_两数之和.py)

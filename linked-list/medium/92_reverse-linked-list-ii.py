@@ -53,7 +53,25 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        
-# @lc code=end
+    def reverseList(self, head: Optional[ListNode] -> Optional[ListNode]):
+        if not head or not head.next:
+            return head
+        pre, cur = None, head
+        while cur:
+            tmp = cur.next
+            cur.next = pre
 
+            pre = cur
+            cur.next = tmp
+
+        return pre.next
+
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+
+        cur = head
+        count = 1
+        while cur:
+
+# @lc code=end
