@@ -72,8 +72,10 @@ class Solution:
         # 2.way2
         if not intervals:
             return []
+            
         intervals.sort(key=lambda x: x[0])
         res = [intervals[0]]
+
         for i in range(1, len(intervals)):
             pre = res[-1]
             cur = intervals[i]
