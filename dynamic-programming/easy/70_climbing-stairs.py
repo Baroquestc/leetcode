@@ -52,13 +52,37 @@
 # @lc code=start
 class Solution:
     def climbStairs(self, n: int) -> int:
-        if n <= 2:
-            return n
+        # 方法一.自低向上
+        # # 1.定义状态：dp[i]表示爬到第i阶楼梯的方法数
+        # dp = [0] * (n + 1)
+
+        # # 2.确定状态转移方程
+        # # dp[i] = dp[i - 1] + dp[i - 2]
         
-        first, second = 1, 2
-        for i in range(3, n + 1):
-            first, second = second, first + second
-        
-        return second
+        # # 3.初始化状态
+        # dp[0] = 1
+        # dp[1] = 1
+
+        # # 4.计算状态值
+        # for i in range(2, n + 1):
+        #     dp[i] = dp[i - 1] + dp[i - 2]
+
+        # return dp[n]
+
+        # 方法二.自顶向下
+        # 1.初始化备忘录
+        memo = {}
+
+        def dp(i: int) -> int:
+            # 2.查备忘录，避免重复计算  
+            if i in memo:
+                return memo[i]
+            # 3.处理边界情况
+            if i <= 2:
+                return i
+            # 4.计算状态值
+            memo[i] = dp(i - 1) + dp(i - 2)
+            return memo[i]
+        return dp(n)
 # @lc code=end
 
