@@ -57,14 +57,38 @@
 # @lc code=start
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
+        # 方法一：自底向上
+        # # 1. 状态定义：dp[i]表示以nums[i]结尾的最长递增子序列的长度
+        # dp = [1] * len(nums)
+        # # 2. 状态转移方程
+        # # dp[i] = max(dp[i], dp[j] + 1) if nums[j] < nums[i]
+        # # 3. 初始化：dp[i] = 1
+        # # 4. 遍历顺序：i从0到n-1，j从0到i-1
+        # for i in range(len(nums)):
+        #     for j in range(i):
+        #         if nums[j] < nums[i]:
+        #             dp[i] = max(dp[i], dp[j] + 1)
+        # return max(dp)
         
-        n = len(nums)
-        dp = [1] * n
-        for i in range(n):
+        # 方法二：自顶向下
+        # 1. 初始化备忘录
+        memo = {}
+        # 2. 定义递归函数
+        def dp(i):
+            # 3. 查找备忘录
+            if i in memo:
+                return memo[i]
+            # 4. 处理边界情况
+            if i == 0:
+                return 1
+            # 5. 状态转移方程
+            max_len = 1
             for j in range(i):
                 if nums[j] < nums[i]:
-                    dp[i] = max(dp[i], dp[j] + 1)
-        return max(dp)
+                    max_len = max(max_len, dp(j) + 1)
+            memo[i] = max_len
+            return max_len
+
+        return max(dp(i) for i in range(len(nums)))
+        
 # @lc code=end
