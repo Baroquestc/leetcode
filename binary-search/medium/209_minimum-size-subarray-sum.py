@@ -72,4 +72,3 @@ class Solution:
         return min_length if min_length != float('inf') else 0
 
 # @lc code=end
-
