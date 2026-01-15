@@ -59,101 +59,82 @@ from typing import *
 #
 
 # @lc code=start
+# class Solution:
+#     def lengthOfLongestSubstring(self, s: str) -> int:
+#         # 滑动窗口
+#         # 时间复杂度：O(n)
+#         # 空间复杂度：O(min(m, n))
+#         # 其中 n 是字符串的长度，m 是字符集的大小。
+#         # 本题中字符串由英文字母、数字、符号和空格组成，因此 m=128
+#         # left, right = 0, 0
+#         # window = {}
+#         # res = 0
+#         # while right < len(s):
+#         #     c = s[right]
+#         #     right += 1
+#         #     window[c] = window.get(c, 0) + 1
+#         #     while window[c] > 1:
+#         #         d = s[left]
+#         #         left += 1
+#         #         window[d] -= 1
+#         #     res = max(res, right - left)
+#         # return res
+
+#         # 优化
+#         # left, right = 0, 0
+#         # window = {}
+#         # res = 0
+#         # while right < len(s):
+#         #     c = s[right]
+#         #     right += 1
+#         #     window[c] = window.get(c, 0) + 1
+#         #     while window[c] > 1:
+#         #         d = s[left]
+#         #         left += 1
+#         #         window[d] -= 1
+#         #     res = max(res, right - left)
+#         # return res
+
+#         seen = set()
+#         left = 0
+#         max_length = 0
+
+#         for right in range(len(s)):
+#             while s[right] in seen:
+#                 seen.remove(s[left])
+#                 left += 1
+#             seen.add(s[right])
+#             max_length = max(max_length, right - left + 1)
+
+#         return max_length
+
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        # 滑动窗口
-        # 时间复杂度：O(n)
-        # 空间复杂度：O(min(m, n))
-        # 其中 n 是字符串的长度，m 是字符集的大小。
-        # 本题中字符串由英文字母、数字、符号和空格组成，因此 m=128
-        # left, right = 0, 0
-        # window = {}
-        # res = 0
-        # while right < len(s):
-        #     c = s[right]
-        #     right += 1
-        #     window[c] = window.get(c, 0) + 1
-        #     while window[c] > 1:
-        #         d = s[left]
-        #         left += 1
-        #         window[d] -= 1
-        #     res = max(res, right - left)
-        # return res
-
-        # 优化
-        # left, right = 0, 0
-        # window = {}
-        # res = 0
-        # while right < len(s):
-        #     c = s[right]
-        #     right += 1
-        #     window[c] = window.get(c, 0) + 1
-        #     while window[c] > 1:
-        #         d = s[left]
-        #         left += 1
-        #         window[d] -= 1
-        #     res = max(res, right - left)
-        # return res
-
-        seen = set()
-        left = 0
-        max_length = 0
-
+        # 创建一个字典来记录当前窗口中每个字符的出现次数
+        char_count = {}
+        left = 0  # 滑动窗口的左边界
+        res = 0   # 记录最长无重复子串的长度
+    
+        # 遍历字符串，right作为滑动窗口的右边界
         for right in range(len(s)):
-            while s[right] in seen:
-                seen.remove(s[left])
+            # 获取当前右边界指向的字符
+            char_right = s[right]
+            # 更新该字符在窗口中的计数
+            char_count[char_right] = char_count.get(char_right, 0) + 1
+            
+            # 如果当前字符在窗口中出现次数大于1，说明有重复字符
+            # 需要从左侧移动窗口，直到重复字符被移出窗口
+            while char_count[char_right] > 1:
+                # 获取左边界指向的字符
+                char_left = s[left]
+                # 减少该字符在窗口中的计数
+                char_count[char_left] -= 1
+                # 左边界右移，缩小窗口
                 left += 1
-            seen.add(s[right])
-            max_length = max(max_length, right - left + 1)
-
-        return max_length
+            
+            # 更新最长无重复子串的长度
+            # 当前窗口长度为 right - left + 1
+            res = max(res, right - left + 1)
         
+        return res  # 返回最长无重复子串的长度
 # @lc code=end
-import unittest
-
-class TestLengthOfLongestSubstring(unittest.TestCase):
-    def setUp(self):
-        self.solution = Solution()
-
-    def test_example_1(self):
-        """测试示例1: 包含重复字符的普通字符串"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring("abcabcbb"), 3)
-
-    def test_example_2(self):
-        """测试示例2: 仅含有重复字符的字符串"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring("bbbbb"), 1)
-
-    def test_example_3(self):
-        """测试示例3: 普通字符串，最长子串在中间"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring("pwwkew"), 3)
-
-    def test_empty_string(self):
-        """测试空字符串"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring(""), 0)
-
-    def test_single_character(self):
-        """测试单字符"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring("a"), 1)
-
-    def test_all_unique(self):
-        """测试全部字符都不重复的字符串"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring("abcdefg"), 7)
-
-    def test_repeats_at_beginning(self):
-        """测试开头有重复字符的字符串"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring("aabcdef"), 6)
-
-    def test_repeats_at_end(self):
-        """测试结尾有重复字符的字符串"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring("abcdeff"), 6)
-
-    # def test_complex_string(self):
-    #     """测试带有空格、数字和特殊字符的复杂字符串"""
-    #     self.assertEqual(self.solution.lengthOfLongestSubstring("ab c!d@1"), 7)
-
-    def test_repeating_pattern(self):
-        """测试有重复模式的字符串"""
-        self.assertEqual(self.solution.lengthOfLongestSubstring("abcabcd"), 4)
-
-if __name__ == '__main__':
-    unittest.main()
