@@ -85,4 +85,3 @@ class Solution:
 
         return new_head
 # @lc code=end
-
