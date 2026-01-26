@@ -63,20 +63,33 @@
 #         self.next = next
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        dummy = ListNode(0, head)
-        fast = head
-        slow = dummy
+        # 1.迭代法
+        # dummy = ListNode(0, head)
+        # slow = fast = dummy
 
-        for _ in range(n):
-            fast = fast.next
-
-        while fast:
-            fast = fast.next
-            slow = slow.next
+        # for _ in range(n):
+        #     fast = fast.next
         
-        # 删除倒数第n个节点
-        slow.next = slow.next.next
+        # while fast.next:
+        #     slow = slow.next
+        #     fast = fast.next
+        
+        # slow.next = slow.next.next
 
-        return dummy.next
+        # return dummy.next
+
+        # 2.递归
+        self.cnt = 0
+        def remove_node(node):
+            if not node:
+                return None
+            
+            node.next = remove_node(node.next)
+            self.cnt += 1
+            if self.cnt == n:
+                return node.next
+            
+            return node
+
+        return remove_node(head)
 # @lc code=end
-
