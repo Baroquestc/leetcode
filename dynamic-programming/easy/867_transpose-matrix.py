@@ -51,10 +51,20 @@
 # @lc code=start
 class Solution:
     def transpose(self, matrix: List[List[int]]) -> List[List[int]]:
-        rows, cols = len(matrix), len(matrix[0])
-        for row in range(rows):
-            for col in range(cols):
-                if row < col:
-                    matrix[row][col], matrix[col][row] = matrix[col][row], matrix[row][col]
-# @lc code=end
+        # 1.常规解法
+        # if not matrix:
+        #     return []
 
+        # m = len(matrix)
+        # n = len(matrix[0])
+        # transposed = [[0] * m for _ in range(n)]
+
+        # for i in range(m):
+        #     for j in range(n):
+        #         transposed[j][i] = matrix[i][j]
+        
+        # return transposed
+
+        # 2. Pythonic 解法
+        return list(map(list, zip(*matrix)))
+# @lc code=end
