@@ -22,4 +22,3 @@ class Solution:
         return image  
 
 # @lc code=end
-
