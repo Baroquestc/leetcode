@@ -51,6 +51,7 @@ class Solution:
                 left -= 1
                 right += 1
             return s[left+1:right]
+            
         res = ''
         for word in range(len(s)):
             s1 = palindrome(s, word, word)
